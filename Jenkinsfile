@@ -92,8 +92,7 @@ pipeline {
 		 //deploying on VM (eg Production Environment)
                   steps{
                        deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://devopsteamgoa.westindia.cloudapp.azure.com:8081/')], contextPath: 'musicstore', onFailure: false, war: 'musicstore/target/*.war'
-		       sh 'url=\'http://devopsteamgoa.westindia.cloudapp.azure.com:8081/musicstore/index.html'
-		       sh 'curl -sL --connect-timeout 20 --max-time 30 -w "%{http_code}\\\\n" "$url" -o /dev/null'
+		       sh 'curl -sL --connect-timeout 20 --max-time 30 -w "%{http_code}\\\\n" "http://devopsteamgoa.westindia.cloudapp.azure.com:8081/musicstore/index.html" -o /dev/null'
 		       script{
                        def response = sh(script: 'curl http://devopsteamgoa.westindia.cloudapp.azure.com:8081/musicstore/version.html', returnStdout: true)
 		       if(env.version == response)
