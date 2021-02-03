@@ -82,7 +82,7 @@ pipeline {
 		 steps{
 		      sh script:'''
 		      cd seleniumtest
-		      mvn -Dtest="UUIDTest.java" test -Duuid=env.version 
+		      mvn -Dtest="UUIDTest.java" test -Duuid=$(env.version) 
 		      '''
 		      //mvn -Dtest="SearchTest.java" test
 		      }
