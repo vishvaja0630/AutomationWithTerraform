@@ -15,7 +15,7 @@ pipeline {
         stage('GIT clone repo and creation of version.html') {
             steps {
                //clone repo
-               git 'https://github.com/vishvaja0630/AutomationAssignment.git'
+               git 'https://github.com/vishvaja0630/AutomationWithTerraform.git'
 			  
 	       //Creating version.html and writing randomUUID to it
 	       sh script:'''
@@ -82,9 +82,9 @@ pipeline {
 		 steps{
 		      sh script:'''
 		      cd seleniumtest
-		      mvn -Dtest="SearchTest.java" test
+		      mvn -Dtest="UUIDTest.java" test -Duuid=env.version 
 		      '''
-		      //mvn -Dtest="UUIDTest.java" test -Duuid=env.version 
+		      //mvn -Dtest="SearchTest.java" test
 		      }
 	}  
 	    
