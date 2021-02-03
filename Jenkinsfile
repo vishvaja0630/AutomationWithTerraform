@@ -1,7 +1,8 @@
 pipeline {
     agent any
 	environment {
-        version = UUID.randomUUID().toString()
+        UUID uuid = UUID.randomUUID()
+        version = uuid.toString() //string comparison 
         registryCredential ='docker'
 	containerName = "shraddhal/seleniumtest2"
         container_version = "1.0.0.${BUILD_ID}"
@@ -82,7 +83,7 @@ pipeline {
 		 steps{
 		      sh script:'''
 		      cd seleniumtest
-		      mvn -Dtest="UUIDTest.java" test -Duuid="$(version)" 
+		      mvn -Dtest="UUIDTest.java" test -Duuid="$uuid" 
 		      '''
 		      //mvn -Dtest="SearchTest.java" test
 		      }
