@@ -14,7 +14,7 @@ provider "docker" {
 }
 
 
-resource "docker_container" "terratomcat" {
+resource "docker_container" "dockerisedtomcat" {
   image = "tomcat:latest"
   name  = "tomcat"
   restart = "always"
