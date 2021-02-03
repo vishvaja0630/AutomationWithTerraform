@@ -9,6 +9,7 @@ pipeline {
     }
 	tools {
         maven 'maven' 
+	terraform 'terraform'
     }
     stages {
         stage('GIT clone repo and creation of version.html') {
@@ -35,7 +36,7 @@ pipeline {
 	stage('Docker build and publish tomcat image'){
 		steps{
 		    script{
-			 dockerImage = docker.build("shivani221/dockerisedtomcat")
+			 dockerImage = docker.build("shivani221/terratomcat")
 			 docker.withRegistry( '', registryCredential ) {
                          dockerImage.push("$BUILD_NUMBER")
                          dockerImage.push('latest')
@@ -44,11 +45,26 @@ pipeline {
 		}
 	}    
 	    
-	stage('Running the tomcat container') {
+	/*stage('Running the tomcat container') {
 		steps{
 	         sh 'docker run -d --name dockerisedtomcat -p 9090:8080 shivani221/dockerisedtomcat:latest'
 	        }
-	 }
+	 }*/
+	  stage('Terraform Init'){
+         steps{
+         sh 'terraform init'
+         }
+      }
+      stage('Terraform Plan'){
+         steps{
+         sh 'terraform plan'
+         }
+      }
+      stage('Terraform Apply'){
+         steps{
+         sh 'terraform apply --auto-approve'
+         }
+      }     
 	stage('compose up for selenium test') {
             steps {
                 script {
@@ -80,9 +96,14 @@ pipeline {
         }
     }
 	
-		post{
+		/*post{
                     always{
                          sh "docker rm -f dockerisedtomcat"
+                         }
+                     }*/
+	post{
+                    always{
+                        sh 'terraform destroy --auto-approve'
                          }
                      }
 	    
