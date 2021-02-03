@@ -1,0 +1,67 @@
+<DOCTYPE! html>
+<head>
+	<style>
+		.bkimg{
+			background-image: url("indbk.jpg");
+  			height: 100%; 
+			background-position: center;
+  			background-repeat: no-repeat;
+  			background-size: cover;
+			filter: blur(6px);
+		}
+		.log{
+			position: absolute;
+  			z-index: 2;
+  			top: 30%;
+			left: 85%;
+			width:30%;
+			height:75%;
+			padding: 2px;
+			border: 1px solid black;
+  			transform: translate(-85%, -30%);
+  			background-color: white;
+  			opacity: 0.9;
+		}
+		.buttons{
+			color: darkblue;
+			background-color: lightgrey;
+			width: 100px;
+			border-radius: 25px;
+		}
+		input{
+			border: 1px solid grey;
+			padding: 2px;
+			margin: 5px;
+		}
+		.msg{
+			position: absolute;
+  			z-index: 2;
+  			top: 40%;
+			left: 30%;
+			width:30%;
+  			transform: translate(-30%, -30%);
+		}
+	</style>
+	<title>MusicStore</title>
+</head>
+<body>
+	<div class="bkimg"></div>
+	<div class="msg">
+		<p><font size="10px" color="white"><b>All your favorite music in one place!!!</b></font></p>
+	</div>
+	<div class="log">
+		<center>
+		<img src="login1.png">
+		<h2>Login</h2>
+		<form action="login.php" method="POST">
+			Username:
+			<input type="text" name="user" id="user"></input><br>
+			Password:
+			<input type="password" name="pass" id="pass"></input>
+			<br><br>
+			<input type="submit" value="Login" class="buttons"></input>
+		</form>
+		<a href="signup.html">Don't Have an Account?Sign-up!</a>
+	</center>
+	</div>
+</body>
