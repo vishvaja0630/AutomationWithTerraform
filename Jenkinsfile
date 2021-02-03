@@ -84,7 +84,7 @@ pipeline {
 		      cd seleniumtest
 		      mvn -Dtest="SearchTest.java" test
 		      '''
-		      //mvn -Dtest="UUIDTest.java" -Duuid=env.version test
+		      //mvn -Dtest="UUIDTest.java" test -Duuid=env.version 
 		      }
 	}  
 	    
