@@ -15,7 +15,7 @@ provider "docker" {
 
 
 resource "docker_container" "dockerisedtomcat" {
-  image = "tomcat:latest"
+  image = "shivani221/dockerisedtomcat:latest"
   name  = "tomcat"
   restart = "always"
   ports {
