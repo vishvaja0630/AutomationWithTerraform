@@ -11,15 +11,32 @@ terraform{
 
 # Configure the docker provider
 provider "docker" {
+
+  registry_auth {
+    address = "registry.hub.docker.com"
+    username = "vishvajafaldesai"
+    password = var.password
+  }
 }
 
 
-resource "docker_container" "dockerisedtomcat" {
-  image = "shivani221/dockerisedtomcat:latest"
-  name  = "tomcat"
-  restart = "always"
+resource "docker_image" "dockerisedtomcat" {
+  name = "vishvajafaldesai/dockerisedtomcat:latest"
+  build {
+      path="."
+  }
+}
+
+resource "docker_container" "dockerisedtomcatcontainer" {
+  name  = "dockerisedtomcatcontainer"
+  image = docker_image.dockerisedtomcat.latest
+  must_run = true
   ports {
     internal = 8080
-    external = 9090
+    external = 9093
   }
+}
+
+variable "password" {
+  type = string
 }
