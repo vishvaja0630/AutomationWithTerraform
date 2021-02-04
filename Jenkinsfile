@@ -36,37 +36,14 @@ pipeline {
 		  }
 	}
 	    
-	stage('Docker build and publish tomcat image'){
-		//build tomcat image with name dockerisedtomcat using Dockerfile and publish on dockerhub/shivani221	
-		steps{
-		    script{
-			 dockerImage = docker.build("shivani221/dockerisedtomcat")
-			 docker.withRegistry( '', registryCredential ) {
-                         dockerImage.push("$BUILD_NUMBER")
-                         dockerImage.push('latest')
-			 }
-			}
-		}
-	}    
-	    
 	//Creating and running dockerisedtomcat container using terraform   
-	stage('Terraform Init'){
-                steps{
+	stage('Create and run containers using terraform'){
+                 steps{
+		 withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpass', usernameVariable: 'dockeruser')]) {
                     sh 'terraform init'
+                    sh 'terraform apply -auto-approve -var "password=$dockerpass"'
                 }
         }
-	    
-        stage('Terraform Plan'){
-               steps{
-                   sh 'terraform plan'
-               }
-       }
-	    
-      stage('Terraform Apply'){
-               steps{
-                   sh 'terraform apply --auto-approve'
-               }
-      }     
 	    
       stage('Compose up for selenium test') {
 		//building selenium grid for testing
