@@ -3,7 +3,7 @@ pipeline {
 	environment {
         UUID uuid = UUID.randomUUID()
         registryCredential ='docker'
-	containerName = "shraddhal/seleniumtest2"
+	containerName = "vishvaja/seleniumtest2"
         container_version = "1.0.0.${BUILD_ID}"
         dockerTag = "${containerName}:${container_version}"
     }
