@@ -54,7 +54,7 @@ protected WebDriver driver;
         driver.manage().window().maximize();
         
         
-        driver.get("http://devopsteamgoa.westindia.cloudapp.azure.com:9090/MusicStore/version.html");  
+        driver.get("http://devopsteamgoa.westindia.cloudapp.azure.com:9093/MusicStore/version.html");  
         // get the current URL of the page   
         String URL= driver.getCurrentUrl();  
         System.out.println("current URL of the page fetched: "+URL); 
