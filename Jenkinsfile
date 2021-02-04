@@ -44,6 +44,7 @@ pipeline {
                     sh 'terraform apply -auto-approve -var "password=$vish_dockerpass"'
                 }
         }
+	}
 	    
       stage('Compose up for selenium test') {
 		//building selenium grid for testing
