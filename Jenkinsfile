@@ -39,9 +39,9 @@ pipeline {
 	//Creating and running dockerisedtomcat container using terraform   
 	stage('Create and run containers using terraform'){
                  steps{
-		 withCredentials([usernamePassword(credentialsId: 'docker', passwordVariable: 'dockerpass', usernameVariable: 'dockeruser')]) {
+		 withCredentials([usernamePassword(credentialsId: 'vish_docker', passwordVariable: 'vish_dockerpass', usernameVariable: 'vish_dockeruser')]) {
                     sh 'terraform init'
-                    sh 'terraform apply -auto-approve -var "password=$dockerpass"'
+                    sh 'terraform apply -auto-approve -var "password=$vish_dockerpass"'
                 }
         }
 	    
