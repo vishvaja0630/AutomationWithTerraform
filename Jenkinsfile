@@ -85,6 +85,7 @@ pipeline {
 	post{
                always{
                sh 'terraform destroy --auto-approve'
+	       sh 'docker-compose down'	       
                }
              }
 	
