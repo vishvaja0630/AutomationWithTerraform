@@ -37,7 +37,7 @@ pipeline {
 	       }
 	}
 	    
-	//Creating and running dockerisedtomcat container using terraform   
+	//Creating and running dockerisedtomcatcontainer using terraform   
 	stage('Create and run containers using terraform'){
                steps{
 	       //use credentials from jenkins with credentialId: vish_docker
@@ -86,7 +86,7 @@ pipeline {
         }
         }//stages closed
 	
-	//using terraform destroy to remove container dockerisedtomcat and compose down for selenium
+	//using terraform destroy to remove dockerisedtomcatcontainer and compose down for selenium
 	post{
                always{
                sh 'terraform destroy --auto-approve'
