@@ -6,12 +6,13 @@ pipeline {
 	containerName = "vishvaja/seleniumtest2"
         container_version = "1.0.0.${BUILD_ID}"
         dockerTag = "${containerName}:${container_version}"
-    }
+        }
+	
 	tools {
         maven 'maven' 
-    }
-    stages {
-	    
+        }
+	
+        stages {    
         stage('GIT clone repo and creation of version.html') {
             steps {
                //clone repo
@@ -23,52 +24,55 @@ pipeline {
 	       '''
 	       println uuid
 	       writeFile file: "musicstore/src/main/webapp/version.html", text: uuid
-            }
-        }
+               }
+         }
 	    
 	stage('Build maven project'){
-		//cd to pom.xml
-		steps{
+	       //cd to pom.xml
+	       steps{
 		   sh script:'''
 		   cd musicstore
 		   mvn -Dmaven.test.failure.ignore=true clean package
 		   '''
-		  }
+	       }
 	}
 	    
 	//Creating and running dockerisedtomcat container using terraform   
 	stage('Create and run containers using terraform'){
-                 steps{
-		 withCredentials([usernamePassword(credentialsId: 'vish_docker', passwordVariable: 'vish_dockerpass', usernameVariable: 'vish_dockeruser')]) {
+               steps{
+	       //use credentials from jenkins with credentialId: vish_docker
+	       withCredentials([usernamePassword(credentialsId: 'vish_docker', passwordVariable: 'vish_dockerpass', usernameVariable: 'vish_dockeruser')]) {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve -var "password=$vish_dockerpass"'
                 }
-        }
+                }
 	}
 	    
-      stage('Compose up for selenium test') {
+       stage('Compose up for selenium test') {
 		//building selenium grid for testing
                 steps {
                 script {
 			sh 'docker-compose up -d --scale chrome=3'	
                 }
-	    }
-        }
+	        }
+       }
 	    
       stage('Testing on dockerised tomcat'){
-		 //testing on dockerised tomcat using selenium
+		 //testing on dockerised tomcat using selenium (3 tests: UUID, SearchTest for string matching and SearchTest2 for failure)
 		 steps{
 		      sh script:'''
 		      cd seleniumtest
 		      mvn -Dtest="UUIDTest.java" test -Duuid="$uuid" 
 		      '''
 		      //mvn -Dtest="SearchTest.java" test
+		      //mvn -Dtest="SearchTest2.java" test
 		      }
 	}  
 	    
 	stage('Deploy on tomcat in VM'){   
 		 //deploying on VM (eg Production Environment)
                   steps{
+			  
                        deploy adapters: [tomcat9(credentialsId: 'tomcat', path: '', url: 'http://devopsteamgoa.westindia.cloudapp.azure.com:8081/')], contextPath: 'musicstore', onFailure: false, war: 'musicstore/target/*.war'
 		       sh 'curl -sL --connect-timeout 20 --max-time 30 -w "%{http_code}\\\\n" "http://devopsteamgoa.westindia.cloudapp.azure.com:8081/musicstore/index.html" -o /dev/null'
 		       script{
@@ -78,11 +82,11 @@ pipeline {
 		       else
 		       echo 'Older version deployed'
 	               }
-	              }
-                     }
+	               }
         }
+        }//stages closed
 	
-	//using terraform destroy to remove container dockerisedtomcat
+	//using terraform destroy to remove container dockerisedtomcat and compose down for selenium
 	post{
                always{
                sh 'terraform destroy --auto-approve'
