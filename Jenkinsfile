@@ -85,7 +85,7 @@ pipeline {
         }
         }//stages closed
 	
-	//using terraform destroy to remove dockerisedtomcatcontainer and compose down for selenium
+	//using terraform destroy to remove dockerisedtomcatcontainer and compose down for selenium -always runs
 	post{
                always{
                sh 'terraform destroy --auto-approve'
