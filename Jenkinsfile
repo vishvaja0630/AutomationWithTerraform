@@ -58,7 +58,7 @@ pipeline {
        }
 	    
       stage('Testing on dockerised tomcat'){
-		 //testing on dockerised tomcat using selenium (3 tests: UUID, SearchTest for string matching and SearchTest2 for failure)
+		 //testing on dockerisedtomcatcontainer using selenium (3 tests: UUID, SearchTest for string matching and SearchTest2 for failure)
 		 steps{
 		      sh script:'''
 		      cd seleniumtest
