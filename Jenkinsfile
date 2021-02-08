@@ -39,24 +39,26 @@ pipeline {
 	       //use credentials from jenkins with credentialId: vish_docker
 	       withCredentials([usernamePassword(credentialsId: 'vish_docker', passwordVariable: 'vish_dockerpass', usernameVariable: 'vish_dockeruser')]) {
                     sh 'terraform init'
-                    sh 'terraform apply -auto-approve -var "password=$vish_dockerpass"'
+		    sh 'terraform apply -target=module.tomcat_container -var "pass=$vish_dockerpass" -auto-approve'
+                    //sh 'terraform apply -auto-approve -var "password=$vish_dockerpass"'
                 }
                 }
 	}
 	    
-       stage('Compose up for selenium test') {
+       /*stage('Compose up for selenium test') {
 		//building selenium grid for testing
                 steps {
                 script {
 			sh 'docker-compose up -d --scale chrome=3'	
                 }
 	        }
-       }
+       }*/
 	    
       stage('Testing on dockerised tomcat'){
 		 //testing on dockerisedtomcatcontainer using selenium (3 tests: UUID, SearchTest for string matching and SearchTest2 for failure)
 		 steps{
 		      sh script:'''
+		      terraform apply -auto-approve -target=module.testing_containers -var pass=""
 		      cd seleniumtest
 		      mvn -Dtest="UUIDTest.java" test -Duuid="$uuid" 
 		      '''
@@ -86,7 +88,7 @@ pipeline {
 	post{
                always{
                sh 'terraform destroy --auto-approve'
-	       sh 'docker-compose down'	       
+	       //sh 'docker-compose down'	       
                }
              }
 	
