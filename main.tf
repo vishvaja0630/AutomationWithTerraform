@@ -4,7 +4,7 @@ module "tomcat_container" {
 }
 
  module "testing_containers" {
-  source = "./testing"
+  source = "./seleniumtesting"
 } 
   
 variable "pass" {
