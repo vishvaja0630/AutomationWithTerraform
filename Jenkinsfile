@@ -88,6 +88,12 @@ pipeline {
 	
 	stage('Deploy on AWS')
 	{ steps{
+		withCredentials([string(credentialsId: 'vish_aws_access_key', variable: 'access_key'), string(credentialsId: 'vish_aws_secret_key', variable: 'secret_key')]) {
+                 sh '''cp musicstore/target/MusicStore.war aws_tomcat/MusicStore.war
+		 cd aws_tomcat
+		 terraform init
+                 terraform apply -var "access=$access_key" -var "secret=$secret_key" -auto-approve'''
+                }
 	   }
 	}
 	
