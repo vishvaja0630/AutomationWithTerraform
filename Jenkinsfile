@@ -46,14 +46,14 @@ pipeline {
                 }
 	}
 	    
-       /*stage('Compose up for selenium test') {
+       stage('Compose up for selenium test') {
 		//building selenium grid for testing
                 steps {
                 script {
 			sh 'docker-compose up -d --scale chrome=3'	
                 }
 	        }
-       }*/
+       }
 	    
       stage('Testing on dockerised tomcat'){
 		 //testing on dockerisedtomcatcontainer using selenium (3 tests: UUID, SearchTest for string matching and SearchTest2 for failure)
@@ -84,7 +84,7 @@ pipeline {
 	               }
         }
         }//stages closed
-	/*
+	*/
 	
 	stage('Deploy on AWS')
 	{ steps{
