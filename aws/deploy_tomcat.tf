@@ -10,7 +10,7 @@ resource "aws_key_pair" "my_key" {
 }
 
 resource "aws_vpc" "main" {
-    cidr_block       = "${var.main_vpc_cidr}"
+    cidr_block       = var.main_vpc_cidr
     instance_tenancy = "default"
     enable_dns_support = true
     enable_dns_hostnames = true
@@ -21,9 +21,9 @@ resource "aws_vpc" "main" {
         }
 
  resource "aws_subnet" "subnet1" {
-   vpc_id     = "${aws_vpc.main.id}"
+   vpc_id     = aws_vpc.main.id
    cidr_block = "10.0.1.0/24"
-   availability_zone = "${var.availability_zone1}"
+   availability_zone = var.availability_zone1
 
   tags {
     Name = "app-subnet-1"
@@ -34,7 +34,7 @@ resource "aws_vpc" "main" {
 resource "aws_instance" "Tomcat-Server" {
     ami = "ami-08e0ca9924195beba"
     instance_type = "t2.micro"
-    security_groups = ["${aws_security_group.bastion-sg.name}"]
+    security_groups = [aws_security_group.bastion-sg.name]
     associate_public_ip_address = true
     tags = {
         Name = "Tomcat-Server"
@@ -55,7 +55,7 @@ resource "aws_instance" "Tomcat-Server" {
 
   resource "aws_security_group" "bastion-sg" {
   name   = "bastion-security-group"
-  vpc_id = "${aws_vpc.main.id}"
+  vpc_id = "aws_vpc.main.id"
 
   ingress {
     protocol    = "tcp"
