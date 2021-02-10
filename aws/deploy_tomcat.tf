@@ -47,7 +47,7 @@ resource "aws_instance" "Tomcat-Server" {
 
   resource "aws_security_group" "bastion-sg" {
   name   = "bastion-security-group"
-  vpc_id = "aws_vpc.main.id"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     protocol    = "tcp"
