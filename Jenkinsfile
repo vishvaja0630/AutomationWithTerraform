@@ -83,7 +83,7 @@ pipeline {
 	               }
 	               }
         }
-        }//stages closed
+     
 	
 	stage('Deploy on AWS')
 	{ steps{
@@ -95,7 +95,7 @@ pipeline {
                 }
 	   }
 	}
-	}
+	}//stages closed
 	
 	//using terraform destroy to remove dockerisedtomcatcontainer and compose down for selenium -always runs
 	post{
