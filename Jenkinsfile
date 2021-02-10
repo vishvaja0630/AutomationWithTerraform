@@ -32,7 +32,8 @@ pipeline {
 		   '''
 	       }
 	}
-	    
+	 /*   
+	 
 	//Creating and running dockerisedtomcatcontainer using terraform   
 	stage('Create and run containers using terraform'){
                steps{
@@ -83,6 +84,12 @@ pipeline {
 	               }
         }
         }//stages closed
+	/*
+	
+	stage('Deploy on AWS')
+	{ steps{
+	   }
+	}
 	
 	//using terraform destroy to remove dockerisedtomcatcontainer and compose down for selenium -always runs
 	post{
