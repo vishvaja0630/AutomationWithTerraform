@@ -14,6 +14,7 @@ resource "aws_vpc" "main" {
     instance_tenancy = "default"
     enable_dns_support = true
     enable_dns_hostnames = true
+  }
 
  resource "aws_subnet" "subnet1" {
    vpc_id     = aws_vpc.main.id
