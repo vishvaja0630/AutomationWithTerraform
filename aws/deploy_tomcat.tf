@@ -26,7 +26,7 @@ resource "aws_vpc" "main" {
 resource "aws_instance" "Tomcat-Server" {
     ami = "ami-08e0ca9924195beba"
     instance_type = "t2.micro"
-    security_groups = [aws_security_group.bastion-sg.name]
+    vpc_security_group_ids = [aws_security_group.bastion-sg.id]
     associate_public_ip_address = true
     tags = {
         Name = "Tomcat-Server"
