@@ -46,17 +46,9 @@ pipeline {
                 }
 	}
 	    
-       stage('Compose up for selenium test') {
-		//building selenium grid for testing
-                steps {
-                script {
-			sh 'docker-compose up -d --scale chrome=3'	
-                }
-	        }
-       }
 	    
       stage('Testing on dockerised tomcat'){
-		 //testing on dockerisedtomcatcontainer using selenium (3 tests: UUID, SearchTest for string matching and SearchTest2 for failure)
+		 //testing on dockerisedtomcatcontainer using selenium (3 tests: UUID, SearchTest for string matching and SearchTest2 for failure), created using terraform
 		 steps{
 		      sh script:'''
 		      terraform apply -auto-approve -target=module.testing_containers -var pass=""
@@ -86,7 +78,8 @@ pipeline {
      
 	
 	stage('Deploy on AWS')
-	{ steps{
+	{  //deploying on AWS VM (eg Production Environment)
+	   steps{
 		withCredentials([string(credentialsId: 'vish_aws_access_key', variable: 'access_key'), string(credentialsId: 'vish_aws_secret_key', variable: 'secret_key')]) {
                  sh '''cp musicstore/target/MusicStore.war aws/MusicStore.war
 		 cd aws
